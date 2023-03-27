@@ -1,0 +1,13 @@
+package com.dorisliu.mallspringboot;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
+
+@SpringBootTest
+class MallSpringbootApplicationTests {
+
+    @Test
+    void contextLoads() {
+    }
+
+}
