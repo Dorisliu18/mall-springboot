@@ -1,6 +1,7 @@
 package com.dorisliu.mallspringboot.controller;
 
 import com.dorisliu.mallspringboot.constant.ProductCategory;
+import com.dorisliu.mallspringboot.dto.ProductQueryParams;
 import com.dorisliu.mallspringboot.dto.ProductRequest;
 import com.dorisliu.mallspringboot.service.ProductService;
 
@@ -27,7 +28,11 @@ public class ProductController {
             // 查詢關鍵字
             @RequestParam(required = false) String search
     ){
-        List<Product> productList = productService.getProducts(category, search);
+        ProductQueryParams productQueryParams = new ProductQueryParams();
+        productQueryParams.setCategory(category);
+        productQueryParams.setSearch(search);
+
+        List<Product> productList = productService.getProducts(productQueryParams);
 
         return ResponseEntity.status(HttpStatus.OK).body(productList);
     }
