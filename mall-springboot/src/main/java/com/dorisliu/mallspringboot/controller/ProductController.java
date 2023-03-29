@@ -6,14 +6,17 @@ import com.dorisliu.mallspringboot.dto.ProductRequest;
 import com.dorisliu.mallspringboot.service.ProductService;
 
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import model.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
+@Validated
 @RestController
 public class ProductController {
 
@@ -33,7 +36,15 @@ public class ProductController {
             // 查詢列表(根據欄位內容來排序)
             @RequestParam(defaultValue = "created_date") String orderBy,
             // 查詢列表(使用升序asc或降序desc來排序)
-            @RequestParam(defaultValue = "desc") String sort
+            @RequestParam(defaultValue = "desc") String sort,
+
+            // 分頁 Pagination
+            // 取得 幾筆數據
+            // 有用MAX跟MIN記得加@Validated註解
+            @RequestParam(defaultValue = "5") @Max(1000) @Min(0) Integer limit,
+            // 跳過 幾筆數據
+            @RequestParam(defaultValue = "0") @Min(0) Integer offset
+
 
 
 
@@ -43,6 +54,8 @@ public class ProductController {
         productQueryParams.setSearch(search);
         productQueryParams.setOrderBy(orderBy);
         productQueryParams.setSort(sort);
+        productQueryParams.setLimit(limit);
+        productQueryParams.setOffset(offset);
 
         List<Product> productList = productService.getProducts(productQueryParams);
 
